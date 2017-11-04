@@ -250,7 +250,7 @@ void Win32OpenGLView::swapBuffers ()
 {
 	if (deviceContext)
 	{
-		wglMakeCurrent (deviceContext, 0);
+		wglMakeCurrent (deviceContext, openGLContext);
 		SwapBuffers (deviceContext);
 	}
 }
