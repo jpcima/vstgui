@@ -25,11 +25,19 @@
 #include "direct2d/d2dbitmap.h"
 #include "direct2d/d2dfont.h"
 
-extern void* hInstance;
-
 namespace VSTGUI {
 
-HINSTANCE GetInstance () { return (HINSTANCE)hInstance; }
+HINSTANCE GetInstance () {
+	static HMODULE hDll = NULL;
+	if (!hDll)
+	{
+		DWORD dwFlags = GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS|
+		                GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT;
+		LPCTSTR lpAddress = (LPCTSTR)&GetInstance;
+		GetModuleHandleEx(dwFlags, lpAddress, &hDll);
+	}
+	return hDll;
+}
 
 #ifndef VERSIONHELPERAPI
 const OSVERSIONINFOEX& getSystemVersion ()
